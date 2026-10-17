@@ -88,39 +88,54 @@
 
 <script>
 (() => {
-  let currentVersion = null;
+  const files = ["/", "/style.css", "/script.js"];
+  let original = null;
   let checking = false;
 
-  async function checkVersion() {
+  async function getFiles() {
+    return Promise.all(
+      files.map(async (file) => {
+        const response = await fetch(
+          file + "?_check=" + Date.now(),
+          { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+          throw new Error("Gagal memeriksa " + file);
+        }
+
+        return response.text();
+      })
+    );
+  }
+
+  async function checkForUpdate() {
     if (document.hidden || checking) return;
     checking = true;
 
     try {
-      const response = await fetch(
-        "/api/version?t=" + Date.now(),
-        { cache: "no-store" }
-      );
+      const latest = await getFiles();
 
-      if (!response.ok) return;
-
-      const data = await response.json();
-      if (!data.version || data.version === "unknown") return;
-
-      if (currentVersion === null) {
-        currentVersion = data.version;
-      } else if (data.version !== currentVersion) {
+      if (original === null) {
+        original = latest;
+      } else if (
+        latest.some((content, index) =>
+          content !== original[index]
+        )
+      ) {
         window.location.reload();
       }
     } catch (error) {
-      console.warn("Gagal mengecek update:", error);
+      console.warn("Pengecekan update gagal:", error);
     } finally {
       checking = false;
     }
   }
 
-  checkVersion();
-  setInterval(checkVersion, 15000);
+  checkForUpdate();
+  setInterval(checkForUpdate, 30000);
 })();
 </script>
+
 </body>
 </html>
