@@ -39,7 +39,7 @@
 <div class="bar"><button id="hclear" class="o">Hapus Semua</button><button id="hclose">Tutup</button></div></div></div>
 
 
-<div class="scr on" id="modes"><header class="top"><span class="brand"><i aria-hidden="true"></i>asda (SI)</span><div class="top-r"><span class="credit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg><span>Created by <b>Muhammad Fikri Fahreza</b></span></span><button id="fsModes" class="s hi ic-maximize">Layar Penuh</button></div></header>
+<div class="scr on" id="modes"><header class="top"><span class="brand"><i aria-hidden="true"></i>05SISM003 (SI)</span><div class="top-r"><span class="credit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg><span>Created by <b>Muhammad Fikri Fahreza</b></span></span><button id="fsModes" class="s hi ic-maximize">Layar Penuh</button></div></header>
 <main class="modewrap"><span class="chip">Pilih Mode Permainan</span><h1 style="margin-top:.3em">PANIK PODIUM</h1><p>Mau main apa hari ini?</p>
 <div class="modegrid">
 <button class="modecard m1" id="m1"><span class="ico" aria-hidden="true"><i class="ic ic-podium"></i></span><b>URUTAN PRESENTASI</b><small>Tentukan kelompok mana yang maju presentasi terlebih dahulu hingga terakhir.</small></button>
@@ -85,57 +85,72 @@
 <div id="tsHistory" class="ovl" style="display:none"><div class="wrap clay"><h1 style="font-size:40px">Riwayat Team Shuffle</h1><div id="tsHL"></div>
 <div class="bar"><button id="tsHclear" class="o">Hapus Semua</button><button id="tsHclose">Tutup</button></div></div></div>
 
-
 <script>
 (() => {
-  const files = ["/", "/style.css", "/script.js"];
-  let original = null;
-  let checking = false;
+  let versiAwal = null;
+  let sedangCek = false;
 
-  async function getFiles() {
-    return Promise.all(
-      files.map(async (file) => {
-        const response = await fetch(
-          file + "?_check=" + Date.now(),
-          { cache: "no-store" }
-        );
+  async function ambilIsi(url) {
+    const alamat = new URL(url, location.href);
+    alamat.hash = "";
+    alamat.searchParams.set("_cek_update", Date.now());
 
-        if (!response.ok) {
-          throw new Error("Gagal memeriksa " + file);
-        }
+    const hasil = await fetch(alamat.href, {
+      cache: "no-store"
+    });
 
-        return response.text();
-      })
-    );
+    if (!hasil.ok) throw new Error("Pengecekan gagal");
+    return hasil.text();
   }
 
-  async function checkForUpdate() {
-    if (document.hidden || checking) return;
-    checking = true;
+  async function cekUpdate() {
+    if (document.hidden || sedangCek) return;
+    sedangCek = true;
 
     try {
-      const latest = await getFiles();
+      const html = await ambilIsi(location.pathname);
+      const dokumen = new DOMParser().parseFromString(
+        html, "text/html"
+      );
 
-      if (original === null) {
-        original = latest;
-      } else if (
-        latest.some((content, index) =>
-          content !== original[index]
+      const aset = [
+        ...dokumen.querySelectorAll(
+          'script[src], link[rel~="stylesheet"][href]'
         )
-      ) {
-        window.location.reload();
+      ]
+      .map(el => el.getAttribute("src") || el.getAttribute("href"))
+      .filter(Boolean)
+      .map(url => new URL(url, location.href))
+      .filter(url => url.origin === location.origin)
+      .map(url => url.href);
+
+      const isiAset = await Promise.all(
+        [...new Set(aset)].map(async url => {
+          try {
+            return await ambilIsi(url);
+          } catch {
+            return "gagal:" + url;
+          }
+        })
+      );
+
+      const versiSekarang = JSON.stringify([html, isiAset]);
+
+      if (versiAwal === null) {
+        versiAwal = versiSekarang;
+      } else if (versiSekarang !== versiAwal) {
+        location.reload();
       }
     } catch (error) {
-      console.warn("Pengecekan update gagal:", error);
+      console.warn("Gagal mengecek update:", error);
     } finally {
-      checking = false;
+      sedangCek = false;
     }
   }
 
-  checkForUpdate();
-  setInterval(checkForUpdate, 30000);
+  cekUpdate();
+  setInterval(cekUpdate, 30000);
 })();
 </script>
-
 </body>
 </html>
