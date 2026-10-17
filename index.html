@@ -19,7 +19,7 @@
 <div class="wrap clay setupcard"><h2>Atur Kelompok</h2>
 <div class="bar ctrl"><label>Jumlah <input id="cnt" type="number" min="2" max="12"></label>
 <button id="add" class="y hi ic-plus">Tambah</button><button id="demo" class="s">Isi Contoh (8)</button><button id="reset" class="o">Reset</button></div>
-<div class="msg" style="margin:0 0 .4em">Tombol ♀ / ♂ di tiap baris memilih karakter: Pink Astronaut (♀) atau Green Astronaut (♂). Tidak ditebak dari nama.</div><div id="rows"></div><div class="msg" id="err" role="status" aria-live="polite"></div>
+<p class="hint">Karakter tiap kelompok: <i class="dF"></i>Pink Astronaut atau <i class="dM"></i>Green Astronaut. Tekan tombolnya untuk mengganti.</p><div id="rows"></div><div class="msg" id="err" role="status" aria-live="polite"></div>
 <div class="bar act"><button class="p" id="start">MULAI LOMBA!</button><button id="hist" class="l hi ic-history">Riwayat</button></div>
 </div></div></main>
 <footer class="foot"><span class="credit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg><span>Created by <b>Muhammad Fikri Fahreza</b></span></span></footer></div>
@@ -47,20 +47,20 @@
 </div></main>
 </div>
 
-<div class="scr" id="tsSetup"><header class="top"><span class="brand"><i aria-hidden="true"></i>Pembagian Anggota Kelompok</span><div class="top-r"><button id="tsHome" class="l">Ganti Mode</button><span class="credit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg><span>Created by <b>Muhammad Fikri Fahreza</b></span></span><button id="fsTs" class="s hi ic-maximize">Layar Penuh</button></div></header>
+<div class="scr" id="tsSetup"><header class="top"><span class="brand"><i aria-hidden="true"></i>PANIK PODIUM</span><div class="top-r"><button id="tsHome" class="l">Ganti Mode</button><span class="credit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg><span>Created by <b>Muhammad Fikri Fahreza</b></span></span><button id="fsTs" class="s hi ic-maximize">Layar Penuh</button></div></header>
 <main class="tsgrid">
 <section class="tshero"><span class="chip">Pembagian Anggota Kelompok</span>
 <h1 class="logo"><span>TEAM</span><span>SHUFFLE</span></h1>
 <div class="tag">Acak anggota, temukan kelompokmu!</div>
 <canvas id="tsHero" aria-hidden="true"></canvas>
 <p class="lead">Tempel daftar nama, atur jumlah kelompok, lalu biarkan arena 3D membagi semuanya secara acak dan adil.</p>
-<ol class="tssteps"><li><b>1</b>Isi Nama</li><li><b>2</b>Atur Kelompok</li><li><b>3</b>Mulai Pengacakan</li></ol></section>
-<section class="clay tsc"><h2>Daftar Mahasiswa</h2><p class="note" style="margin:0">Tempel atau ketik nama, lalu pilih karakter ♀ / ♂ untuk tiap mahasiswa.</p>
-<label for="tsNames" class="note">Satu nama per baris. Bisa tempel langsung dari Excel / Google Sheets.</label>
-<textarea id="tsNames" rows="9" placeholder="Andi Pratama&#10;Budi Santoso&#10;Citra Lestari"></textarea>
+<ol class="tssteps"><li><b>1</b>Isi Nama</li><li><b>2</b>Atur Kelompok</li><li><b>3</b>Mulai Acak</li></ol></section>
+<section class="clay tsc"><h2>Daftar Mahasiswa</h2><p class="note" style="margin:0">Tulis atau tempel nama mahasiswa, lalu pilih karakter untuk tiap nama.</p>
+<details id="tsPaste"><summary>Tempel banyak nama sekaligus</summary><label for="tsNames" class="note">Satu nama per baris. Bisa tempel langsung dari Excel / Google Sheets.</label>
+<textarea id="tsNames" rows="6" placeholder="Andi Pratama&#10;Budi Santoso&#10;Citra Lestari"></textarea></details>
 <div class="bar" style="margin:0"><span class="chip" id="tsCount">0 mahasiswa terdeteksi</span><button id="tsSample" class="s">Contoh 35 Nama</button><button id="tsClear" class="o">Kosongkan</button></div>
 <div id="tsWarn" class="msg" role="status" aria-live="polite"></div>
-<div class="msg" style="margin:0 0 .4em">Tombol ♀ / ♂ di tiap nama memilih karakter: Pink Astronaut (♀) atau Green Astronaut (♂). Tidak ditebak dari nama.</div><div id="tsList" aria-label="Edit nama"></div></section>
+<p class="hint">Karakter tiap nama: <i class="dF"></i>Pink Astronaut atau <i class="dM"></i>Green Astronaut. Tekan tombolnya untuk mengganti.</p><div id="tsList" aria-label="Edit nama"></div></section>
 <section class="clay tsc"><h2>Pengaturan Pembagian</h2><p class="note" style="margin:0">Pilih cara membagi, lalu cek ringkasannya sebelum mengacak.</p>
 <fieldset><legend class="note">Metode pembagian</legend>
 <label class="opt"><input type="radio" name="tsM" value="A"> <span><b>A.</b> Berdasarkan jumlah kelompok</span></label>
@@ -84,73 +84,7 @@
 
 <div id="tsHistory" class="ovl" style="display:none"><div class="wrap clay"><h1 style="font-size:40px">Riwayat Team Shuffle</h1><div id="tsHL"></div>
 <div class="bar"><button id="tsHclear" class="o">Hapus Semua</button><button id="tsHclose">Tutup</button></div></div></div>
-
-<script>
-(() => {
-  let versiAwal = null;
-  let sedangCek = false;
-
-  async function ambilIsi(url) {
-    const alamat = new URL(url, location.href);
-    alamat.hash = "";
-    alamat.searchParams.set("_cek_update", Date.now());
-
-    const hasil = await fetch(alamat.href, {
-      cache: "no-store"
-    });
-
-    if (!hasil.ok) throw new Error("Pengecekan gagal");
-    return hasil.text();
-  }
-
-  async function cekUpdate() {
-    if (document.hidden || sedangCek) return;
-    sedangCek = true;
-
-    try {
-      const html = await ambilIsi(location.pathname);
-      const dokumen = new DOMParser().parseFromString(
-        html, "text/html"
-      );
-
-      const aset = [
-        ...dokumen.querySelectorAll(
-          'script[src], link[rel~="stylesheet"][href]'
-        )
-      ]
-      .map(el => el.getAttribute("src") || el.getAttribute("href"))
-      .filter(Boolean)
-      .map(url => new URL(url, location.href))
-      .filter(url => url.origin === location.origin)
-      .map(url => url.href);
-
-      const isiAset = await Promise.all(
-        [...new Set(aset)].map(async url => {
-          try {
-            return await ambilIsi(url);
-          } catch {
-            return "gagal:" + url;
-          }
-        })
-      );
-
-      const versiSekarang = JSON.stringify([html, isiAset]);
-
-      if (versiAwal === null) {
-        versiAwal = versiSekarang;
-      } else if (versiSekarang !== versiAwal) {
-        location.reload();
-      }
-    } catch (error) {
-      console.warn("Gagal mengecek update:", error);
-    } finally {
-      sedangCek = false;
-    }
-  }
-
-  cekUpdate();
-    setInterval(cekUpdate, 5000);
-})();
-</script>
-</body>
-</html>
+<div id="toast" role="status" aria-live="polite" hidden><span id="toastT"></span><button type="button" id="toastU">Urungkan</button></div>
+<div id="camHint" role="status" hidden></div>
+<script src="vendor/three.min.js"></script>
+<script src="script.js"></script></body></html>

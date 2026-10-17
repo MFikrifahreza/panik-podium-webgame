@@ -480,3 +480,34 @@ body{font-size:var(--fs)}
 @media (max-height:760px){:root{--pad:10px;--u-gap:6px}}
 @media (max-height:680px){.hero .lead,.tshero .lead{display:none}}
 @media (max-height:620px){.hero .tag,.tshero .tag{display:none}}
+
+/* ===== PERBAIKAN UI/UX ===== */
+::placeholder{color:#4A4566;opacity:1}
+.note{opacity:.92}
+.hint{margin:0;font-size:.85em;line-height:1.4;color:#2A2640}
+.hint i{display:inline-block;width:.8em;height:.8em;border-radius:50%;vertical-align:-.08em;margin:0 .3em 0 .2em;box-shadow:inset -1px -1px 2px rgba(40,36,75,.3)}
+.hint .dF{background:#F7B4D2}.hint .dM{background:#98E2BC}
+/* tombol pilih karakter: pil berlabel, terpisah dari tombol hapus */
+#rows .row button.sx,#tsList .row button.sx{display:inline-flex;align-items:center;justify-content:center;gap:.3em;flex:none;width:5.3em;min-width:0;height:var(--ctl,2.2em);padding:0 .8em;border-radius:999px;font-size:.82em;font-weight:700;line-height:1;white-space:nowrap}
+button.sx .sxi{font-size:1.25em;line-height:1}
+#rows .row button[data-d],#tsList .row button[data-d]{margin-left:.2em}
+#rows .row button.sx{width:3.7em;padding:0 .3em}#rows .row button.sx .sxi{display:none}
+#tsList .row button.sx{height:2.2em}
+/* tempel banyak nama: satu sumber utama, kotak teks bisa dilipat */
+#tsPaste{display:flex;flex-direction:column;gap:.4em}
+#tsPaste>summary{cursor:pointer;font-weight:600;padding:.35em .2em;border-radius:12px}
+#tsPaste[open]>summary{margin-bottom:.2em}
+#tsSetup #tsPaste #tsNames{flex:none;height:7.5em;min-height:0}
+#tsSetup #tsList{flex:1 1 0;min-height:7em;max-height:none}
+/* pilihan metode: tanda terpilih tidak hanya mengandalkan warna */
+input[type=radio]{appearance:none;-webkit-appearance:none;flex:none;margin:0;width:1.3em;height:1.3em;border-radius:50%;display:inline-grid;place-items:center;background:var(--c);box-shadow:inset 2px 2px 4px var(--ins),inset -2px -2px 4px var(--hi)}
+input[type=radio]:checked{background:#5B3A66}
+input[type=radio]:checked::after{content:"";width:.5em;height:.5em;border-radius:50%;background:#fff}
+.opt:has(input:checked){background:var(--pink);font-weight:600;outline:2px solid #2A2640;outline-offset:-2px}
+/* langkah 1-2-3 hanya keterangan, bukan tombol */
+#setup .steps div,#tsSetup .tssteps li{box-shadow:inset 3px 3px 6px var(--ins),inset -3px -3px 6px var(--hi);background:var(--well)}
+/* toast urungkan */
+#toast{position:fixed;left:50%;bottom:calc(max(18px,env(safe-area-inset-bottom,0px)) + 8px);transform:translateX(-50%);z-index:30;display:flex;align-items:center;gap:.8em;max-width:92vw;padding:.5em .6em .5em 1.1em;border-radius:999px;background:#3B3560;color:#F2EEF8;font-size:.9em;font-weight:600;box-shadow:8px 8px 18px var(--sh)}
+#toast button{padding:.3em 1em;font-size:.9em;background:var(--butter)}
+/* petunjuk kamera */
+#camHint{position:fixed;left:50%;bottom:calc(max(14px,env(safe-area-inset-bottom,0px)) + 78px);transform:translateX(-50%);z-index:4;max-width:92vw;padding:.45em 1.1em;border-radius:999px;text-align:center;pointer-events:none;font-size:.85em;font-weight:600;background:rgba(60,55,100,.88);color:#F2EEF8;box-shadow:6px 6px 12px var(--sh)}
