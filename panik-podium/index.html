@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#8F8DB0"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23DB95B3'/%3E%3Cpath d='M5 26h22M5 26v-8h7v8M12 26V10h8v16M20 26v-12h7v12' stroke='%232A2640' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<title>PANIK PODIUM — Siapa yang Maju Duluan?</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body>
+<canvas id="cv"></canvas>
+
+<div class="scr" id="setup"><header class="top"><span class="brand"><i aria-hidden="true"></i>PANIK PODIUM</span><div class="top-r"><button id="toModes" class="l">Ganti Mode</button><span class="credit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg><span>Created by <b>Muhammad Fikri Fahreza</b></span></span><button id="fsHome" class="s hi ic-maximize">Layar Penuh</button></div></header><main class="home"><div class="homegrid">
+<section class="hero"><div class="blobs" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+<canvas id="mascot" class="mascot" aria-hidden="true"></canvas>
+<span class="chip">Undian Presentasi Kelompok</span>
+<h1 class="logo"><span>PANIK</span><span>PODIUM</span></h1>
+<div class="tag">Siapa yang Maju Duluan?</div>
+<p class="lead">Urutan diundi acak dan adil sebelum lomba dimulai.</p>
+<div class="steps"><div><b>1</b>Isi kelompok</div><div><b>2</b>Mulai lomba</div><div><b>3</b>Lihat urutan</div></div>
+</section>
+<div class="wrap clay setupcard"><h2>Atur Kelompok</h2>
+<div class="bar ctrl"><label>Jumlah <input id="cnt" type="number" min="2" max="12"></label>
+<button id="add" class="y hi ic-plus">Tambah</button><button id="demo" class="s">Isi Contoh (8)</button><button id="reset" class="o">Reset</button></div>
+<div class="msg" style="margin:0 0 .4em">Tombol ♀ / ♂ di tiap baris memilih karakter: Pink Astronaut (♀) atau Green Astronaut (♂). Tidak ditebak dari nama.</div><div id="rows"></div><div class="msg" id="err" role="status" aria-live="polite"></div>
+<div class="bar act"><button class="p" id="start">MULAI LOMBA!</button><button id="hist" class="l hi ic-history">Riwayat</button></div>
+</div></div></main>
+<footer class="foot"><span class="credit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg><span>Created by <b>Muhammad Fikri Fahreza</b></span></span></footer></div>
+
+<div id="hud"><div id="top"><span class="chip" id="status">SETUP</span><button id="cam" class="l hi ic-camera">Kamera: Ikuti</button><button id="camReset" class="s hi ic-reset" title="Reset Camera" aria-label="Reset Camera">RESET CAMERA</button><button id="mute" class="y hi ic-vol">Suara: ON</button>
+<input id="vol" type="range" min="0" max="1" step="0.05" value="0.5" aria-label="Volume"><button id="fs" class="s hi ic-maximize">Layar Penuh</button><button id="qual" class="y hi ic-gauge">Grafis</button><button id="back" class="l hi ic-back">Keluar</button></div>
+<div class="chip" id="cmt" style="display:none"></div><div id="big"></div><div id="rank"></div><div id="vig"></div><div id="prog" class="clay"><b><i class="ic ic-flag"></i></b></div></div>
+
+<div class="scr" id="results"><div class="wrap clay">
+<div class="side"><h1>URUTAN PRESENTASI</h1>
+<div class="first" id="first"></div><div class="note" id="when" style="margin-top:8px"></div>
+<div class="bar"><span class="grp" role="group" aria-label="Ekspor"><button id="copy" class="hi ic-copy">Salin</button><button id="txt" class="y hi ic-download">TXT</button><button id="csv" class="y hi ic-download">CSV</button></span>
+<button id="again" class="p">Lomba Ulang</button><button id="toset" class="l">Ke Beranda</button><button id="hist2" class="s hi ic-history">Riwayat</button></div><div class="msg" id="cmsg" style="color:#AEE8CC"></div></div>
+<ol class="list" id="olist"></ol></div></div>
+
+<div id="history" style="display:none"><div class="wrap clay" style="margin-top:20px"><h1 style="font-size:40px">Riwayat</h1><div id="hlist"></div>
+<div class="bar"><button id="hclear" class="o">Hapus Semua</button><button id="hclose">Tutup</button></div></div></div>
+
+
+<div class="scr on" id="modes"><header class="top"><span class="brand"><i aria-hidden="true"></i>05SISM003 (SI)</span><div class="top-r"><span class="credit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg><span>Created by <b>Muhammad Fikri Fahreza</b></span></span><button id="fsModes" class="s hi ic-maximize">Layar Penuh</button></div></header>
+<main class="modewrap"><span class="chip">Pilih Mode Permainan</span><h1 style="margin-top:.3em">PANIK PODIUM</h1><p>Mau main apa hari ini?</p>
+<div class="modegrid">
+<button class="modecard m1" id="m1"><span class="ico" aria-hidden="true"><i class="ic ic-podium"></i></span><b>URUTAN PRESENTASI</b><small>Tentukan kelompok mana yang maju presentasi terlebih dahulu hingga terakhir.</small></button>
+<button class="modecard m2" id="m2"><span class="ico" aria-hidden="true"><i class="ic ic-shuffle"></i></span><b>TEAM SHUFFLE</b><small>Bagikan mahasiswa ke kelompok secara acak melalui permainan animasi 3D yang lucu dan interaktif.</small></button>
+</div></main>
+</div>
+
+<div class="scr" id="tsSetup"><header class="top"><span class="brand"><i aria-hidden="true"></i>Pembagian Anggota Kelompok</span><div class="top-r"><button id="tsHome" class="l">Ganti Mode</button><span class="credit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg><span>Created by <b>Muhammad Fikri Fahreza</b></span></span><button id="fsTs" class="s hi ic-maximize">Layar Penuh</button></div></header>
+<main class="tsgrid">
+<section class="tshero"><span class="chip">Pembagian Anggota Kelompok</span>
+<h1 class="logo"><span>TEAM</span><span>SHUFFLE</span></h1>
+<div class="tag">Acak anggota, temukan kelompokmu!</div>
+<canvas id="tsHero" aria-hidden="true"></canvas>
+<p class="lead">Tempel daftar nama, atur jumlah kelompok, lalu biarkan arena 3D membagi semuanya secara acak dan adil.</p>
+<ol class="tssteps"><li><b>1</b>Isi Nama</li><li><b>2</b>Atur Kelompok</li><li><b>3</b>Mulai Pengacakan</li></ol></section>
+<section class="clay tsc"><h2>Daftar Mahasiswa</h2><p class="note" style="margin:0">Tempel atau ketik nama, lalu pilih karakter ♀ / ♂ untuk tiap mahasiswa.</p>
+<label for="tsNames" class="note">Satu nama per baris. Bisa tempel langsung dari Excel / Google Sheets.</label>
+<textarea id="tsNames" rows="9" placeholder="Andi Pratama&#10;Budi Santoso&#10;Citra Lestari"></textarea>
+<div class="bar" style="margin:0"><span class="chip" id="tsCount">0 mahasiswa terdeteksi</span><button id="tsSample" class="s">Contoh 35 Nama</button><button id="tsClear" class="o">Kosongkan</button></div>
+<div id="tsWarn" class="msg" role="status" aria-live="polite"></div>
+<div class="msg" style="margin:0 0 .4em">Tombol ♀ / ♂ di tiap nama memilih karakter: Pink Astronaut (♀) atau Green Astronaut (♂). Tidak ditebak dari nama.</div><div id="tsList" aria-label="Edit nama"></div></section>
+<section class="clay tsc"><h2>Pengaturan Pembagian</h2><p class="note" style="margin:0">Pilih cara membagi, lalu cek ringkasannya sebelum mengacak.</p>
+<fieldset><legend class="note">Metode pembagian</legend>
+<label class="opt"><input type="radio" name="tsM" value="A"> <span><b>A.</b> Berdasarkan jumlah kelompok</span></label>
+<label class="opt"><input type="radio" name="tsM" value="B"> <span><b>B.</b> Berdasarkan jumlah anggota per kelompok</span></label></fieldset>
+<label class="row"><span id="tsLblN">Jumlah kelompok</span><input id="tsN" type="number" min="1" max="60" inputmode="numeric"></label>
+<label class="row" id="tsRestW" hidden><span>Jika tidak habis dibagi</span><select id="tsRest"><option value="last">Kelompok terakhir menyesuaikan</option><option value="even">Bagi merata</option></select></label>
+<label for="tsGN" class="note">Nama kelompok (opsional, satu per baris; kosong = Kelompok 1, 2, …)</label>
+<textarea id="tsGN" rows="3" placeholder="Tim Garuda&#10;Tim Elang"></textarea>
+<div><button id="tsGNdef" class="s">Pakai Nama Default</button></div>
+<div class="well" id="tsSum" aria-live="polite"></div>
+<div id="tsErr" class="msg" role="alert"></div>
+<div class="bar act" style="margin:0"><button class="p" id="tsStart">MULAI ACAK!</button><button id="tsHist" class="l hi ic-history">Riwayat</button></div></section>
+</main></div>
+
+<div id="tshud"><div id="tsTop"><span class="chip" id="tsStatus" role="status">PERSIAPAN</span><button id="tsPause" class="l">Jeda</button><button id="tsSkip" class="y">Lewati Animasi</button><button id="tsReroll" class="s">Acak Ulang</button><button id="tsCamReset" class="s hi ic-reset" title="Reset Camera" aria-label="Reset Camera">RESET CAMERA</button><button id="tsMute" class="y hi ic-vol">Suara: ON</button><input id="tsVol" type="range" min="0" max="1" step="0.05" aria-label="Volume"><button id="tsFs" class="s hi ic-maximize">Layar Penuh</button><button id="tsBack" class="l hi ic-back">Keluar</button></div><div class="chip" id="tsCmt" style="display:none"></div><div id="tsBig" aria-live="polite"></div><button id="tsView" class="p" style="display:none;position:absolute;left:50%;bottom:64px;transform:translateX(-50%)">Lihat Hasil</button><div id="tsProg"></div></div>
+
+<div class="scr" id="tsResults"><div class="clay tsc" style="max-width:1360px;margin:0 auto"><h1 style="font-size:clamp(26px,5vw,48px)">HASIL TEAM SHUFFLE</h1><div class="note" id="tsWhen"></div>
+<div class="gcards" id="tsCards"></div>
+<div class="bar noprint"><span class="grp" role="group" aria-label="Ekspor"><button id="tsCopy" class="hi ic-copy">Salin Semua</button><button id="tsTxt" class="y hi ic-download">TXT</button><button id="tsCsv" class="y hi ic-download">CSV</button><button id="tsPrint" class="s">Cetak</button></span><button id="tsAgain" class="p">Acak Ulang</button><span class="grp" role="group" aria-label="Navigasi"><button id="tsToSet" class="l">Kembali ke Pengaturan</button><button id="tsToModes" class="l">Ganti Mode</button><button id="tsHist2" class="s hi ic-history">Riwayat</button></span></div>
+<div class="msg noprint" id="tsMsg" style="color:#AEE8CC" role="status"></div></div></div>
+
+<div id="tsHistory" class="ovl" style="display:none"><div class="wrap clay"><h1 style="font-size:40px">Riwayat Team Shuffle</h1><div id="tsHL"></div>
+<div class="bar"><button id="tsHclear" class="o">Hapus Semua</button><button id="tsHclose">Tutup</button></div></div></div>
+
+<script src="vendor/three.min.js"></script>
+<script src="script.js"></script>
